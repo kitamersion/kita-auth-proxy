@@ -1,0 +1,45 @@
+name: Bump version and create release
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: "0"
+
+      - name: Get repository name
+        run: echo "REPOSITORY_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
+      - name: Bump version and push tag
+        id: tag
+        uses: anothrNick/github-tag-action@1.64.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
+          INITIAL_VERSION: 1.0.0
+
+      - name: Get PR title and commit hash
+        id: get_pr_info
+        run: |
+          echo "::set-output name=PR_TITLE::$(git log --format=%B -n 1 ${{ github.event.before }}..${{ github.sha }} | head -n 1)"
+          echo "::set-output name=COMMIT_HASH::$(git rev-parse ${{ github.sha }})"
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.tag.outputs.tag }}
+          release_name: "Release ${{ steps.tag.outputs.tag }}"
+          body: |
+            ${{ steps.get_pr_info.outputs.PR_TITLE }} ${{ steps.get_pr_info.outputs.COMMIT_HASH }}
+
