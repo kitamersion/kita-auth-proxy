@@ -1,0 +1,6 @@
+
+GET http://localhost:3000/mal/oauth/token HTTP/1.1
+mal_client_id: client_id
+mal_client_secret: client_secret
+mal_code: code_from_exchange
+mal_code_verifier: code_verifier_or_challenge_from_client
