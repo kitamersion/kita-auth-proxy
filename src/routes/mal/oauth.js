@@ -3,24 +3,15 @@ var router = express.Router();
 var qs = require('qs');
 const axios = require('axios');
 
-const generateRandomString = (length) => {
-  let text = "";
-  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
-  for (let i = 0; i < length; i++) {
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  }
-  return text;
-}
-
 router.post('/authorize', function(req, res) {
-  var clientId = process.env.CLIENT_ID;
-  const challenge = process.env.CHALLENGE;
+  var clientId = req.query.client_id;
+  const challenge = req.query.challenge;
   res.redirect(`https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${clientId}&code_challenge=${challenge}&code_challenge_method=plain`);
 });
 
 router.get('/callback', function(req, res) {
   var code = req.query.code;
-  res.redirect(`/oauth/token?code=${code}`);
+  res.redirect(`/mal/oauth/token?code=${code}`);
 });
 
 router.get('/token', async function(req, res) {
