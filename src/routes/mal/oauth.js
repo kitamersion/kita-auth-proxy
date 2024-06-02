@@ -4,21 +4,21 @@ var qs = require('qs');
 const axios = require('axios');
 
 router.post('/authorize', function(req, res) {
-  var clientId = req.query.client_id;
-  const challenge = req.query.challenge;
+  const clientId  = req.headers.mal_client_id;
+  const challenge = req.headers.mal_challenge;
   res.redirect(`https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${clientId}&code_challenge=${challenge}&code_challenge_method=plain`);
 });
 
 router.get('/callback', function(req, res) {
   var code = req.query.code;
-  res.redirect(`/mal/oauth/token?code=${code}`);
+  res.json({ code: code });
 });
 
 router.get('/token', async function(req, res) {
-  var code = req.query.code;
-  var clientId = process.env.CLIENT_ID;
-  var clientSecret = process.env.CLIENT_SECRET;
-  const codeVerifier = process.env.CHALLENGE;
+  const code          = req.headers.mal_code;
+  const clientId      = req.headers.mal_client_id;
+  const clientSecret  = req.headers.mal_client_secret;
+  const codeVerifier  = req.headers.mal_code_verifier;
 
   try {
     var response = await axios.post('https://myanimelist.net/v1/oauth2/token', qs.stringify({
