@@ -1,4 +1,3 @@
-
 GET http://localhost:3000/mal/oauth/token HTTP/1.1
 mal_client_id: client_id
 mal_client_secret: client_secret
