@@ -6,8 +6,9 @@ var logger = require('morgan');
 var bodyParser = require('body-parser');
 require('dotenv').config();
 
-var indexRouter = require('./routes/index');
-var oauthRouter = require('./routes/mal/oauth');
+var healthRouter = require('./api/health');
+var indexRouter = require('./api/home');
+var oauthRouter = require('./api/mal/oauth');
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
+app.use('/health', healthRouter);
 app.use('/mal/oauth', oauthRouter);
 
 // catch 404 and forward to error handler
