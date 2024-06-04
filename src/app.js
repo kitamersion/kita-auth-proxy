@@ -4,6 +4,8 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+var swaggerJsDoc = require('swagger-jsdoc');
+var swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 
 var healthRouter = require('./api/health');
@@ -11,6 +13,22 @@ var indexRouter = require('./api/home');
 var oauthRouter = require('./api/mal/oauth');
 
 var app = express();
+
+var swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Kitamersion Auth Proxy',
+      version: '1.0.0',
+      description: 'API Documentation for Kitamersion Auth Proxy',
+    },
+    servers: [`http://localhost:${process.env.PORT || 3000}`],
+  },
+  apis: [path.join(__dirname, './api/**/*.js')]
+};
+
+var swaggerDocs = swaggerJsDoc(swaggerOptions);
+const disableSwaggerBanner = '.swagger-ui .topbar { display: none }';
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, { customCss: disableSwaggerBanner }));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
