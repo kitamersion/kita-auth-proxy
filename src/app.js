@@ -16,7 +16,13 @@ var oauthRouter = require('./api/mal/oauth');
 var app = express();
 
 var corsOptions = {
-  origin: '*',
+  origin: function (origin, callback) {
+    if (origin.startsWith('moz-extension://') || origin === 'https://myanimelist.net') {
+      callback(null, true)
+    } else {
+      callback(new Error('Not allowed by CORS'))
+    }
+  },
   optionsSuccessStatus: 200
 }
 
