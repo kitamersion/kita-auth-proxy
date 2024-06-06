@@ -11,12 +11,12 @@ const axios = require('axios');
  *      - MyAnimeList OAuth2
  *     summary: Redirects to the MAL OAuth2 authorization page
  *     parameters:
- *       - in: header
+ *       - in: query
  *         name: mal_client_id
  *         required: true
  *         schema:
  *           type: string
- *       - in: header
+ *       - in: query
  *         name: mal_challenge
  *         required: true
  *         schema:
@@ -26,8 +26,8 @@ const axios = require('axios');
  *         description: Redirect to the MAL OAuth2 authorization page
  */
 router.post('/authorize', function(req, res) {
-  const clientId  = req.headers.mal_client_id;
-  const challenge = req.headers.mal_challenge;
+  const clientId  = req.query.mal_client_id;
+  const challenge = req.query.mal_challenge;
   res.redirect(`https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${clientId}&code_challenge=${challenge}&code_challenge_method=plain`);
 });
 

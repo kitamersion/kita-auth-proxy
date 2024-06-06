@@ -7,12 +7,20 @@ var bodyParser = require('body-parser');
 var swaggerJsDoc = require('swagger-jsdoc');
 var swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
+var cors = require('cors');
 
 var healthRouter = require('./api/health');
 var indexRouter = require('./api/home');
 var oauthRouter = require('./api/mal/oauth');
 
 var app = express();
+
+var corsOptions = {
+  origin: 'https://kita-auth-proxy.onrender.com',
+  optionsSuccessStatus: 200
+}
+
+app.use(cors(corsOptions));
 
 var swaggerOptions = {
   swaggerDefinition: {
