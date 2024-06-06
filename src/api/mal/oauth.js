@@ -6,7 +6,7 @@ const axios = require('axios');
 /**
  * @swagger
  * /mal/oauth/authorize:
- *   post:
+ *   get:
  *     tags:
  *      - MyAnimeList OAuth2
  *     summary: Redirects to the MAL OAuth2 authorization page
@@ -25,7 +25,7 @@ const axios = require('axios');
  *       302:
  *         description: Redirect to the MAL OAuth2 authorization page
  */
-router.post('/authorize', function(req, res) {
+router.get('/authorize', function(req, res) {
   const clientId  = req.query.mal_client_id;
   const challenge = req.query.mal_challenge;
   res.redirect(`https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${clientId}&code_challenge=${challenge}&code_challenge_method=plain`);
