@@ -16,7 +16,7 @@ var oauthRouter = require('./api/mal/oauth');
 var app = express();
 
 var corsOptions = {
-  origin: 'https://kita-auth-proxy.onrender.com',
+  origin: '*',
   optionsSuccessStatus: 200
 }
 
