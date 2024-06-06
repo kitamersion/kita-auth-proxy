@@ -35,37 +35,6 @@ router.get('/authorize', function(req, res) {
  * @swagger
  * tags:
  *    - mal
- * /mal/oauth/callback:
- *   get:
- *     tags:
- *      - MyAnimeList OAuth2
- *     summary: Callback endpoint for MAL OAuth2
- *     parameters:
- *       - in: query
- *         name: code
- *         required: true
- *         schema:
- *           type: string
- *     responses:
- *       200:
- *         description: Returns the authorization code
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 code:
- *                   type: string
- */
-router.get('/callback', function(req, res) {
-  var code = req.query.code;
-  res.json({ code: code });
-});
-
-/**
- * @swagger
- * tags:
- *    - mal
  * /mal/oauth/token:
  *   get:
  *     tags:
