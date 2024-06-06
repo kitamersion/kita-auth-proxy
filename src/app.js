@@ -17,7 +17,7 @@ var app = express();
 
 var corsOptions = {
   origin: function (origin, callback) {
-    if (origin.startsWith('moz-extension://') || origin === 'https://myanimelist.net') {
+    if (origin.startsWith('moz-extension://') || origin === 'https://myanimelist.net' || origin === 'https://api.myanimelist.net') {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
