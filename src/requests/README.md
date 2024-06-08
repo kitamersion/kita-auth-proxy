@@ -7,6 +7,8 @@ To test the requests, you can use [kita auth proxy](https://kita-auth-proxy.onre
 
 Note: Recommend using this site for testing because it makes requests over HTTPS.
 
+Optionally you can run the server locally
+
 **OR**
 
 You can use vscode extension REST CLIENT: [https://marketplace.visualstudio.com/items?itemName=humao.rest-client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
