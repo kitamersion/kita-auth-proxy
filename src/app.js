@@ -8,11 +8,13 @@ var swaggerJsDoc = require('swagger-jsdoc');
 var swaggerUi = require('swagger-ui-express');
 require('dotenv').config();
 var cors = require('cors');
+var requireMalToken = require('./middleware/malTokenMiddleware');
 
 var healthRouter = require('./api/health');
 var indexRouter = require('./api/home');
 var malOauthRouter = require('./api/mal/oauth');
 var malUserRouter = require('./api/mal/user');
+var malMediaRouter = require('./api/mal/media');
 
 var app = express();
 
@@ -59,7 +61,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use('/', indexRouter);
 app.use('/health', healthRouter);
 app.use('/mal/oauth', malOauthRouter);
-app.use('/mal/user', malUserRouter);
+app.use('/mal/user', requireMalToken, malUserRouter);
+app.use('/mal/media', requireMalToken, malMediaRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
