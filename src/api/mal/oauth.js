@@ -28,7 +28,8 @@ const axios = require('axios');
 router.get('/authorize', function(req, res) {
   const clientId  = req.query.mal_client_id;
   const challenge = req.query.mal_challenge;
-  res.redirect(`https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${clientId}&code_challenge=${challenge}&code_challenge_method=plain`);
+  const scope = 'write:users';
+  res.redirect(`https://myanimelist.net/v1/oauth2/authorize?response_type=code&client_id=${clientId}&code_challenge=${challenge}&code_challenge_method=plain&scope=${scope}`);
 });
 
 /**

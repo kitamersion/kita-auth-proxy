@@ -11,13 +11,14 @@ var cors = require('cors');
 
 var healthRouter = require('./api/health');
 var indexRouter = require('./api/home');
-var oauthRouter = require('./api/mal/oauth');
+var malOauthRouter = require('./api/mal/oauth');
+var malUserRouter = require('./api/mal/user');
 
 var app = express();
 
 var corsOptions = {
   origin: function (origin, callback) {
-    if (origin.startsWith('moz-extension://') || origin === 'https://myanimelist.net' || origin === 'https://api.myanimelist.net') {
+    if (!origin || origin.startsWith('moz-extension://') || origin === 'http://localhost:3000' || origin === 'https://myanimelist.net' || origin === 'https://api.myanimelist.net') {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
@@ -57,7 +58,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 app.use('/', indexRouter);
 app.use('/health', healthRouter);
-app.use('/mal/oauth', oauthRouter);
+app.use('/mal/oauth', malOauthRouter);
+app.use('/mal/user', malUserRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
