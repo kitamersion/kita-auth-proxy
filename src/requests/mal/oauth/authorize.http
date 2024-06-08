@@ -1,6 +1,1 @@
-POST http://localhost:3000/mal/oauth/authorize HTTP/1.1
-content-type: application/json
-mal_client_id: client_id
-mal_challenge: challenge
-
-
+GET http://localhost:3000/mal/oauth/authorize?mal_client_id=your_client_id&mal_challenge=your_challenge HTTP/1.1
