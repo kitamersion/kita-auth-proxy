@@ -20,7 +20,7 @@ var app = express();
 
 var corsOptions = {
   origin: function (origin, callback) {
-    if (!origin || origin.startsWith('moz-extension://') || origin === 'http://localhost:3000' || origin === 'https://myanimelist.net' || origin === 'https://api.myanimelist.net') {
+    if (!origin || origin.startsWith('moz-extension://') || origin.startsWith('chrome-extension://') || origin === 'http://localhost:3000' || origin === 'https://myanimelist.net' || origin === 'https://api.myanimelist.net') {
       callback(null, true)
     } else {
       callback(new Error('Not allowed by CORS'))
