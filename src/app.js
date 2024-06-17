@@ -15,6 +15,7 @@ var indexRouter = require('./api/home');
 var malOauthRouter = require('./api/mal/oauth');
 var malUserRouter = require('./api/mal/user');
 var malMediaRouter = require('./api/mal/media');
+var malSyncRouter = require('./api/mal/sync');
 
 var app = express();
 
@@ -63,6 +64,7 @@ app.use('/health', healthRouter);
 app.use('/mal/oauth', malOauthRouter);
 app.use('/mal/user', requireMalToken, malUserRouter);
 app.use('/mal/media', requireMalToken, malMediaRouter);
+app.use('/mal/sync', requireMalToken, malSyncRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

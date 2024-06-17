@@ -115,14 +115,14 @@ router.get('/token', async function(req, res) {
       }
     });
 
-    res.json({
+    res.status(200).json({
       access_token: response.data.access_token,
       refresh_token: response.data.refresh_token,
       token_type: response.data.token_type,
       expires_in: response.data.expires_in
     });
   } catch (error) {
-    res.json(res.data || { error: 'Error exchanging code for token' });
+    res.status(500).json(res.data || { error: 'Error exchanging code for token' });
   }
 });
 
