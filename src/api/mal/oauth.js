@@ -62,6 +62,13 @@ router.get('/authorize', function(req, res) {
  *         required: true
  *         schema:
  *           type: string
+ *       - in: header
+ *         name: mal_grant_type
+ *         description: The grant type to use when exchanging the code for a token. Defaults to 'authorization_code'. Use 'refresh_token' to refresh the token.
+ *         schema:
+ *           type: string
+ *           enum: [authorization_code, refresh_token]
+ *           default: authorization_code
  *     responses:
  *       200:
  *         description: Returns the access token and related information
@@ -93,13 +100,14 @@ router.get('/token', async function(req, res) {
   const clientId      = req.headers.mal_client_id;
   const clientSecret  = req.headers.mal_client_secret;
   const codeVerifier  = req.headers.mal_code_verifier;
+  const grantType     = req.headers.mal_grant_type || 'authorization_code';
 
   try {
     var response = await axios.post('https://myanimelist.net/v1/oauth2/token', qs.stringify({
       client_id: clientId,
       client_secret: clientSecret,
       code: code,
-      grant_type: 'authorization_code',
+      grant_type: grantType,
       code_verifier: codeVerifier
     }), {
       headers: {
@@ -114,7 +122,7 @@ router.get('/token', async function(req, res) {
       expires_in: response.data.expires_in
     });
   } catch (error) {
-    res.json({ error: 'Error exchanging code for token' });
+    res.json(res.data || { error: 'Error exchanging code for token' });
   }
 });
 
